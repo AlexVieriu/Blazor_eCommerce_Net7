@@ -1,0 +1,32 @@
+﻿@page "/"
+@page "/products"
+
+
+@inject ISearchProductUseCase searchProduct
+
+<SearchBarComp />
+
+@if(Products !=null && Products.Count>0)
+{
+    <div class="row">
+        @foreach (var product in Products)
+        {
+            <ProductItemComp/>
+        }
+    </div>
+}
+
+
+@code{
+    private List<Product> Products;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Products = (await searchProduct.ExecuteAsync()).ToList();
+    }
+
+    private async Task HandleFilter(string filter)
+    {
+        Products = (await searchProduct.ExecuteAsync(filter)).ToList();
+    }
+}
