@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\eShop.CoreBusiness\eShop.CoreBusiness.csproj" />
+    <PackageReference Include="Microsoft.JSInterop" Version="7.0.0-preview.2.22153.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="AdminPortal\" />
+    <ProjectReference Include="..\eShop.UseCases\eShop.UseCases.csproj" />
   </ItemGroup>
 
 </Project>

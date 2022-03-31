@@ -1,0 +1,64 @@
+﻿@inject IUpdateQuantityUseCase updateQty
+@inject IDeleteProductUseCase deleteProduct
+
+@if (LineItem.Product != null)
+{
+    <div class="card p-3">
+        <div class="row text-center">
+            <div class="col">
+                <img src="@LineItem.Product.ImageLink">
+            </div>
+
+            <div class="col text-start">
+                <h5>@LineItem.Product.Name</h5>
+                <label>Quantity: </label>
+                <input type="number" min=0 value=@LineItem.Quantity 
+                    @onchange="HandleUpdateQty" class="form-control" />
+                <p>Price: &nbsp; @LineItem.Price.ToString("c")</p>
+            </div>
+
+            <div class="col position-relative">
+                <button class="btn btn-outline-danger position-absolute top-50 start-50 translate-middle col-9"
+                    @onclick="@(()=> HandleDeleteProduct(LineItem.ProductId))">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public OrderLineItem LineItem { get; set; }
+
+    [Parameter]
+    public EventCallback<Order> OnQtyChange { get; set; }
+
+    [Parameter]
+    public EventCallback<Order> OnDelete { get; set; }
+
+    public async Task HandleUpdateQty(ChangeEventArgs e)
+    {
+        if (e.Value == null || string.IsNullOrWhiteSpace(e.Value.ToString()))
+            return;
+
+        int qty;
+
+        if (int.TryParse(e.Value.ToString(), out qty))
+        {
+            if (qty < 0)
+                return;
+
+            Order order;
+            order = await updateQty.ExecuteAsync(LineItem.ProductId, qty);
+            if (order != null)
+                await OnQtyChange.InvokeAsync(order);
+        }
+    }
+
+    public async Task HandleDeleteProduct(int productId)
+    {
+        var order = await deleteProduct.ExecuteAsync(productId);
+        await OnDelete.InvokeAsync(order);
+    }
+}

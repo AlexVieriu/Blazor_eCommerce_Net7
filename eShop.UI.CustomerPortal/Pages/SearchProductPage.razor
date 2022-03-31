@@ -4,21 +4,21 @@
 
 @inject ISearchProductUseCase searchProduct
 
-<SearchBarComp />
+<SearchBarComp OnSearch="HandleFilter" />
 
-@if(Products !=null && Products.Count>0)
+@if (Products != null && Products.Count > 0)
 {
     <div class="row">
         @foreach (var product in Products)
         {
-            <ProductItemComp/>
+            <ProductItemComp Product="product"/>
         }
     </div>
 }
 
 
-@code{
-    private List<Product> Products;
+@code {
+    private List<Product> Products = new();
 
     protected override async Task OnInitializedAsync()
     {

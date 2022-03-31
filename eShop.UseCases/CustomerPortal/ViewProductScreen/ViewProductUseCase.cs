@@ -1,4 +1,4 @@
-﻿namespace eShop.UseCases.ViewProductScreen;
+﻿namespace eShop.UseCases.CustomerPortal.ViewProductScreen;
 public class ViewProductUseCase : IViewProductUseCase
 {
     private readonly IProductRepository _productRepo;
@@ -7,9 +7,8 @@ public class ViewProductUseCase : IViewProductUseCase
     {
         _productRepo = productRepo;
     }
-
-    public Product Execute(int id)
+    public async Task<Product> ExecuteAsync(int productId)
     {
-        return _productRepo.GetProductbyId(id);
+        return await _productRepo.GetProductbyIdAsync(productId);
     }
 }

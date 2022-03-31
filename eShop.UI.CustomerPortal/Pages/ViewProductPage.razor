@@ -1,0 +1,44 @@
+﻿@page "/product/view/{productId:int}"
+
+@inject IViewProductUseCase viewProductUseCase
+@inject IAddProductToCartUseCase addProductToCartUseCase
+
+<h4 class="p-3">Product Details</h4>
+<br />
+
+@if (Product != null)
+{
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="card" style="width: 50rem;">
+            <div class="text-center">
+                <img src="@Product.ImageLink" class="card-img-top w-25">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@Product.Name</h5>
+                <p class="text-muted">@Product.Brand</p>
+                <hr />
+                <p>Price: &nbsp; <span class="text-danger">@Product.Price.ToString("c")</span></p>
+                <p class="car-text">@Product.Description</p>
+            </div>
+            <a href="/" class="btn btn-primary" @onclick="AddProductToCart">Add Product to Shopping Cart</a>
+        </div>
+    </div>
+}
+
+@code {
+    Product Product;
+
+    [Parameter]
+    public int ProductId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (ProductId > 0)
+            Product = await viewProductUseCase.ExecuteAsync(ProductId);
+    }
+
+    private async Task AddProductToCart()
+    {
+        await addProductToCartUseCase.ExecuteAsync(Product);
+    }
+}

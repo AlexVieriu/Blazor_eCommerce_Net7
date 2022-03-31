@@ -1,1 +1,1 @@
-﻿
+﻿global using eShop.CoreBusiness.Models;

@@ -4,8 +4,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
-builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddSingleton<IProductRepository, ProductRepository>();
+
+builder.Services.AddScoped<IShoppingCart, ShoppingCartBase>();
+
 builder.Services.AddTransient<ISearchProductUseCase, SearchProductUseCase>();
+builder.Services.AddTransient<IViewProductUseCase, ViewProductUseCase>();
+
+builder.Services.AddTransient<IAddProductToCartUseCase, AddProductToCartUseCase>();
+
+builder.Services.AddTransient<IViewShoppingCartUseCase, ViewShoppingCartUseCase>();
+builder.Services.AddTransient<IUpdateQuantityUseCase, UpdateQuantityUseCase>();
+builder.Services.AddTransient<IDeleteProductUseCase, DeleteProductUseCase>();
 
 
 var app = builder.Build();
@@ -13,7 +23,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");    
+    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 

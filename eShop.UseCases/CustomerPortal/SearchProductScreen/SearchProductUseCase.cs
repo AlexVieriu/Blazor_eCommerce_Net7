@@ -1,4 +1,4 @@
-﻿namespace eShop.UseCases.SearchProductScreen;
+﻿namespace eShop.UseCases.CustomerPortal.SearchProductScreen;
 public class SearchProductUseCase : ISearchProductUseCase
 {
     private readonly IProductRepository _productRepo;
