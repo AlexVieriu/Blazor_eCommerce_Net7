@@ -10,8 +10,8 @@
         <div class="col-8">
             @foreach (var item in order.LineItems)
             {
-                <LineItemComp LineItem="item" OnQtyChange="HandleUpdateQty" OnDelete="HandleDeleteProduct" />
-                <br />
+                <LineItemComp LineItem="item" OnUpdateQtyItem="UpdateLineItemQty" OnDeleteLineItem="DeleteLineItem" />
+                <br>
             }
         </div>
         <div class="col">
@@ -25,10 +25,8 @@ else
 }
 
 
-
 @code {
     Order order;
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -38,12 +36,12 @@ else
         }
     }
 
-    private void HandleUpdateQty(Order order)
+    private void UpdateLineItemQty(Order order)
     {
         this.order = order;
     }
 
-    private void HandleDeleteProduct(Order order)
+    private void DeleteLineItem(Order order)
     {
         this.order = order;
     }

@@ -1,5 +1,5 @@
 ﻿@inject IUpdateQuantityUseCase updateQty
-@inject IDeleteProductUseCase deleteProduct
+@inject IDeleteLineItemUseCase deleteLineItem
 
 @if (LineItem.Product != null)
 {
@@ -19,46 +19,41 @@
 
             <div class="col position-relative">
                 <button class="btn btn-outline-danger position-absolute top-50 start-50 translate-middle col-9"
-                    @onclick="@(()=> HandleDeleteProduct(LineItem.ProductId))">
-                    Delete
-                </button>
-            </div>
+                @onclick="HandleDeleteLineItem">Delete</button>
+            </div>           
         </div>
     </div>
 }
+
 
 @code {
     [Parameter]
     public OrderLineItem LineItem { get; set; }
 
     [Parameter]
-    public EventCallback<Order> OnQtyChange { get; set; }
+    public EventCallback<Order> OnUpdateQtyItem { get; set; }
 
     [Parameter]
-    public EventCallback<Order> OnDelete { get; set; }
+    public EventCallback<Order> OnDeleteLineItem { get; set; }
 
-    public async Task HandleUpdateQty(ChangeEventArgs e)
+    public async void HandleUpdateQty(ChangeEventArgs e)
     {
-        if (e.Value == null || string.IsNullOrWhiteSpace(e.Value.ToString()))
-            return;
-
         int qty;
+        var isValue = int.TryParse(e.Value.ToString(), out qty);
 
-        if (int.TryParse(e.Value.ToString(), out qty))
+        if (isValue)
         {
-            if (qty < 0)
-                return;
-
             Order order;
             order = await updateQty.ExecuteAsync(LineItem.ProductId, qty);
             if (order != null)
-                await OnQtyChange.InvokeAsync(order);
+                await OnUpdateQtyItem.InvokeAsync(order);
         }
     }
 
-    public async Task HandleDeleteProduct(int productId)
+    public async void HandleDeleteLineItem()
     {
-        var order = await deleteProduct.ExecuteAsync(productId);
-        await OnDelete.InvokeAsync(order);
+        var order = await deleteLineItem.ExecuteAsync(LineItem.ProductId);
+        if (order != null)
+            await OnDeleteLineItem.InvokeAsync(order);
     }
 }

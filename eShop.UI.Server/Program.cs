@@ -15,7 +15,7 @@ builder.Services.AddTransient<IAddProductToCartUseCase, AddProductToCartUseCase>
 
 builder.Services.AddTransient<IViewShoppingCartUseCase, ViewShoppingCartUseCase>();
 builder.Services.AddTransient<IUpdateQuantityUseCase, UpdateQuantityUseCase>();
-builder.Services.AddTransient<IDeleteProductUseCase, DeleteProductUseCase>();
+builder.Services.AddTransient<IDeleteLineItemUseCase, DeleteLineItemUseCase>();
 
 
 var app = builder.Build();

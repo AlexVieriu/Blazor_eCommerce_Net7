@@ -1,15 +1,15 @@
 ﻿namespace eShop.UseCases.CustomerPortal.ShoppingCardScreen.Services;
 public class ViewShoppingCartUseCase : IViewShoppingCartUseCase
 {
-    private readonly IShoppingCart _shoppingCart;
+    private readonly IShoppingCart _cart;
 
-    public ViewShoppingCartUseCase(IShoppingCart shoppingCart)
+    public ViewShoppingCartUseCase(IShoppingCart cart)
     {
-        _shoppingCart = shoppingCart;
+        _cart = cart;
     }
 
     public async Task<Order> ExecuteAsync()
     {
-        return await _shoppingCart.GetOrderAsync();
+        return await _cart.GetOrderAsync();
     }
 }

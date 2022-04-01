@@ -1,6 +1,6 @@
 ﻿<div class="card">
     <div class="card-body">
-        <h5>OrderSummary</h5>
+        <h5>OrderSummary</h5><br>
 
         <div class="d-flex justify-content-between">
             <p>Item(@Order.LineItems.Count)</p>
@@ -27,10 +27,7 @@
 
 
 @code {
-    double totalPrice;
-
-    [Parameter]
-    public bool isVisible { get; set; }
+    private double totalPrice;
 
     [Parameter]
     public Order Order { get; set; }
