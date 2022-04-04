@@ -2,11 +2,11 @@
 using eShop.UseCases.CustomerPortal.PluginInterfaces.UI;
 
 namespace eShop.StateStore.DI;
-public class StateStoreShoppingCart : StateStoreBase,IShoppingCartStateStore
+public class ShoppingCartStateStore : StateStoreBase, IShoppingCartStateStore
 {
     private readonly IShoppingCart _cart;
 
-    public StateStoreShoppingCart(IShoppingCart cart)
+    public ShoppingCartStateStore(IShoppingCart cart)
     {
         _cart = cart;
     }
@@ -17,5 +17,5 @@ public class StateStoreShoppingCart : StateStoreBase,IShoppingCartStateStore
             return order.LineItems.Count;
 
         return 0;
-    }    
+    }
 }

@@ -1,5 +1,5 @@
 ﻿namespace eShop.UseCases.CustomerPortal.PluginInterfaces.StateStore;
-public interface IShoppingCartStateStore
+public interface IShoppingCartStateStore : IStateStore
 {
     Task<int> GetItemsCount();
 }

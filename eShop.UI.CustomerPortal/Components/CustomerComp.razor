@@ -1,0 +1,48 @@
+﻿<div class="card p-4 mx-5 text-start">
+    <EditForm Model="Customer" OnValidSubmit="HandleCustomerSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div>
+            <label class="fw-bold">Customer Name</label>
+            <InputText class="form-control mb-4" @bind-Value="Customer.CustomerName" />
+        </div>
+
+        <div>
+            <label class="fw-bold">Customer Address</label>
+            <InputText class="form-control mb-4" @bind-Value="Customer.CustomerAddress" />
+        </div>
+
+        <div>
+            <label class="fw-bold">Customer City</label>
+            <InputText class="form-control mb-4" @bind-Value="Customer.CustomerCity" />
+        </div>
+
+        <div>
+            <label class="fw-bold">Customer Country</label>
+            <InputText class="form-control mb-4" @bind-Value="Customer.CustomerCountry" />
+        </div>
+
+        <div>
+            <label class="fw-bold">Customer State Province</label>
+            <InputText class="form-control mb-4" @bind-Value="Customer.CustomerStateProvince" />
+        </div>
+
+        <button class="btn btn-primary" type="submit">Submit Customer</button>
+    </EditForm>
+</div>
+
+
+
+@code {
+    private CustomerUI Customer = new();
+
+    [Parameter]
+    public EventCallback<CustomerUI> OnCustomerSubmit { get; set; }
+
+
+    public async Task HandleCustomerSubmit()
+    {
+        await OnCustomerSubmit.InvokeAsync(Customer);
+    }
+}

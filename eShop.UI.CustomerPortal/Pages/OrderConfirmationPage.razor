@@ -1,0 +1,93 @@
+﻿@page "/confirmOrder/{uniqueId}"
+
+@inject IViewOrderConfirmationUseCase viewOrder
+
+<h3>Order Confirmation</h3>
+<br />
+
+@if (order != null)
+{
+    <div class="row">
+        <div class="col col-lg-8 card p-3">
+            <h5>Shipping Info</h5>
+            <br />
+            <table class="table table-borderless">
+                <tr>
+                    <th>Name</th>
+                    <td>@order.CustomerName</td>
+                </tr>
+                <br>
+                <tr>
+                    <th>Address</th>
+                    <td>@order.CustomerAddress</td>
+                </tr>
+                <br>
+                <tr>
+                    <th>City</th>
+                    <td>@order.CustomerCity</td>
+                </tr>
+                <br>
+                <tr>
+                    <th>State Province</th>
+                    <td>@order.CustomerStateProvince</td>
+                </tr>
+                <br>
+                <tr>
+                    <th>Country</th>
+                    <td>@order.CustomerCountry</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="col">
+            <OrderSummaryComp Order="order" IsVisible="false" />
+        </div>
+    </div>
+
+    <br />
+    <br />
+
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in order.LineItems)
+            {
+                <tr>
+                    <td>@item.Product.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price.ToString("c")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Loading....</p>
+}
+
+
+@code {
+    private Order order;
+
+    [Parameter]
+    public string UniqueId { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            if (string.IsNullOrEmpty(UniqueId) == false)
+            {
+                order = viewOrder.Execute(UniqueId);
+                StateHasChanged();
+            }
+        }
+    }
+}

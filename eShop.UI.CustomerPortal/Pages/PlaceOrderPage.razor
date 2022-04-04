@@ -1,0 +1,45 @@
+﻿@page "/placeorder"
+
+@inject NavigationManager navManager
+@inject IMapper mapper
+@inject IViewShoppingCartUseCase viewShoppingCart
+@inject IPlaceOrderUseCase placeOrder
+
+<h3 class="mt-4">Place Order</h3>
+
+@if (order != null)
+{
+    <div class="row mt-5">
+        <div class="col col-md-8">
+            <CustomerComp OnCustomerSubmit="HandleCustomerSubmited" />
+        </div>
+        <div class="col">
+            <OrderSummaryComp Order="order" IsVisible="false" />
+        </div>
+    </div>
+}
+
+
+@code {
+    private Order order;    
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            order = await viewShoppingCart.ExecuteAsync();
+            StateHasChanged();
+        }
+    }
+
+    private async Task HandleCustomerSubmited(CustomerUI customerUI)
+    {
+        var orderMap = mapper.Map<CustomerUI, Order>(customerUI, this.order);
+        var uniqueId = await placeOrder.ExecuteAsync(orderMap);
+
+        if (string.IsNullOrWhiteSpace(uniqueId) == false)
+            navManager.NavigateTo($"/confirmOrder/{uniqueId}");
+
+
+    }
+}

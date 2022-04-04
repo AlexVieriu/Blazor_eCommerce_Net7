@@ -6,7 +6,7 @@ public class Order
         LineItems = new();
     }
 
-    public int OrderId { get; set; }
+    public int? OrderId { get; set; }
     public DateTime? DatePlaced { get; set; }
     public DateTime? DateProcessing { get; set; }
     public DateTime? DateProcessed { get; set; }

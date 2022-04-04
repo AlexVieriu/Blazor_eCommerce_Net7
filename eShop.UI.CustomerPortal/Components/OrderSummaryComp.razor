@@ -23,6 +23,10 @@
             <p>@totalPrice.ToString("c")</p>
         </div>
     </div>
+    @if(IsVisible)
+    {
+        <a href="/placeOrder" class="btn btn-primary">Place Order</a>   
+    }
 </div>
 
 
@@ -31,6 +35,9 @@
 
     [Parameter]
     public Order Order { get; set; }
+
+    [Parameter]
+    public bool IsVisible { get; set; }
 
     protected override void OnParametersSet()
     {

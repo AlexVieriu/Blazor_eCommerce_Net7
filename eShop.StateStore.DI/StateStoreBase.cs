@@ -12,7 +12,7 @@ public class StateStoreBase : IStateStore
     public void RemoveStateChangeListeners(Action listener)
         => _listeners -= listener;
 
-    public void BroadCastStateChange(Action listener)
+    public void BroadCastStateChange()
     {
         if (_listeners != null)
             _listeners.Invoke();

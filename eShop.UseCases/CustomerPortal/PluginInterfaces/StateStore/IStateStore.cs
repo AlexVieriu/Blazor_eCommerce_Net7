@@ -3,5 +3,5 @@ public interface IStateStore
 {
     void AddStateChangeListeners(Action listener);
     void RemoveStateChangeListeners(Action listener);
-    void BroadCastStateChange(Action listener);
+    void BroadCastStateChange();
 }
