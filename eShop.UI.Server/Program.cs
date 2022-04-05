@@ -3,6 +3,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddControllers();
+
+builder.Services.AddAuthentication("eShop.CookieAuth")
+                .AddCookie("eShop.CookieAuth", config =>
+                {
+                    config.Cookie.Name = "eShop.CookieAuth";
+                    config.LoginPath = "/login";
+                });
 
 builder.Services.AddAutoMapper(typeof(CustomerUI));
 
@@ -12,7 +20,7 @@ builder.Services.AddSingleton<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IShoppingCart, ShoppingCartBase>();
 builder.Services.AddScoped<IShoppingCartStateStore, ShoppingCartStateStore>();
 
-builder.Services.AddTransient<IOrderService, OrderService>();   
+builder.Services.AddTransient<IOrderService, OrderService>();
 
 builder.Services.AddTransient<ISearchProductUseCase, SearchProductUseCase>();
 builder.Services.AddTransient<IViewProductUseCase, ViewProductUseCase>();
@@ -47,6 +55,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 

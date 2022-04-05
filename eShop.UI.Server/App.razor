@@ -1,10 +1,16 @@
-﻿<Router AppAssembly="@typeof(App).Assembly"
+﻿<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(App).Assembly"
         AdditionalAssemblies="new[]{
                                     typeof(eShop.UI.CustomerPortal.Pages.SearchProductPage).Assembly,
-                                    typeof(eShop.UI.AdminPortal.Pages.OutStandingOrdersPage).Assembly
+                                    typeof(eShop.UI.AdminPortal.Pages.OutStandingOrdersPage).Assembly,
+                                    typeof(eShop.UI.Common.Components.LoginPage).Assembly
                                     }">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+            <NotAuthorized>
+                <LoginPage/>
+            </NotAuthorized>
+        </AuthorizeRouteView>
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
     </Found>
     <NotFound>
@@ -14,3 +20,5 @@
         </LayoutView>
     </NotFound>
 </Router>
+</CascadingAuthenticationState>
+

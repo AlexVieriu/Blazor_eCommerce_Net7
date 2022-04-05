@@ -1,5 +1,7 @@
 ﻿@page "/outstandingOrders"
 
+@attribute [Authorize]
+
 @inject IViewOutStandingOrdersUseCase outstandingOrders
 
 <h4>OutStanding Orders</h4>

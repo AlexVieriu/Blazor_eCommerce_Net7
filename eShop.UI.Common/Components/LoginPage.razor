@@ -1,0 +1,37 @@
+﻿@inject NavigationManager navigationManager
+
+<h4>Login Page</h4>
+<br />
+
+@if (Login != null)
+{
+    <EditForm Model="Login" OnValidSubmit="HandleLogin">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div>
+            <label class="fw-bold">User Name</label>
+            <InputText class="form-control" @bind-Value="Login.UserName" />
+        </div>
+
+        <div>
+            <label class="fw-bold">Password</label>
+            <InputText class="form-control" @bind-Value="Login.Password" />
+        </div>
+
+        <button class="btn btn-primary" type="submit">Login</button>
+    </EditForm>
+}
+
+@code {
+    private LoginUI Login;
+    protected override void OnInitialized()
+    {
+        Login = new();
+    }
+
+    public void HandleLogin()
+    {
+        navigationManager.NavigateTo($"/login?user={Login.UserName}&pwd={Login.Password}", forceLoad: true);
+    }
+}
