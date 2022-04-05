@@ -1,6 +1,7 @@
 ﻿<Router AppAssembly="@typeof(App).Assembly"
         AdditionalAssemblies="new[]{
-                                    typeof(eShop.UI.CustomerPortal.Pages.SearchProductPage).Assembly                                    
+                                    typeof(eShop.UI.CustomerPortal.Pages.SearchProductPage).Assembly,
+                                    typeof(eShop.UI.AdminPortal.Pages.OutStandingOrdersPage).Assembly
                                     }">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />

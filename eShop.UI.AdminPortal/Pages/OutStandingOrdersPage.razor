@@ -1,0 +1,17 @@
+﻿@page "/outstandingOrders"
+
+@inject IViewOutStandingOrdersUseCase outstandingOrders
+
+<h4>OutStanding Orders</h4>
+<br/>
+
+<OrderListComp Orders="Orders"/>
+
+@code{
+    private List<Order>? Orders;
+
+    protected override void OnInitialized()
+    {
+        Orders = outstandingOrders.Execute();
+    }
+}

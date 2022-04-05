@@ -5,7 +5,7 @@
 @inject IViewShoppingCartUseCase viewShoppingCart
 @inject IPlaceOrderUseCase placeOrder
 
-<h3 class="mt-4">Place Order</h3>
+<h3>Place Order</h3>
 
 @if (order != null)
 {
@@ -32,14 +32,12 @@
         }
     }
 
-    private async Task HandleCustomerSubmited(CustomerUI customerUI)
+    private async void HandleCustomerSubmited(CustomerUI customerUI)
     {
         var orderMap = mapper.Map<CustomerUI, Order>(customerUI, this.order);
         var uniqueId = await placeOrder.ExecuteAsync(orderMap);
 
         if (string.IsNullOrWhiteSpace(uniqueId) == false)
             navManager.NavigateTo($"/confirmOrder/{uniqueId}");
-
-
     }
 }

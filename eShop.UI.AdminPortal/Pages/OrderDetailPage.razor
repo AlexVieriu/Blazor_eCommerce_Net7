@@ -1,0 +1,67 @@
+﻿@page "/orderDetailed/{orderId:int}"
+
+@inject NavigationManager navManager
+@inject IViewOrderDetailUseCase viewOrder
+@inject IProcessOrderUseCase proccedOrder
+
+<h4>Order Detail</h4>
+<br />
+
+@if (Order != null)
+{
+    <p><b>Customer Info:</b></p>
+    <p>@Order.CustomerName</p>
+    <p>@Order.CustomerAddress</p>
+    <p>@Order.CustomerCity</p>
+    <p>@Order.CustomerStateProvince</p>
+    <p>@Order.CustomerCountry</p>
+
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Order.LineItems)
+            {
+                <tr>
+                    <td>@item.Product.Name</td>
+                    <td>@item.Product.Price</td>
+                    <td>@item.Quantity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <br />
+    <button class="btn btn-primary" @onclick="HandleProcessOrder">
+        Mark Order as Processed
+    </button>
+}
+
+@code {
+    private Order Order;
+
+    [Parameter]
+    public int orderId { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (orderId > 0)
+            Order = viewOrder.Execute(orderId);
+    }
+
+    private void HandleProcessOrder()
+    {
+        if (Order != null)
+        {
+            proccedOrder.Execute(orderId, "admin");
+            navManager.NavigateTo("/outstandingorders");
+        }
+    }
+}

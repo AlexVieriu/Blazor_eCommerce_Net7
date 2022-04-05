@@ -26,6 +26,12 @@ builder.Services.AddTransient<IDeleteLineItemUseCase, DeleteLineItemUseCase>();
 builder.Services.AddTransient<IPlaceOrderUseCase, PlaceOrderUseCase>();
 builder.Services.AddTransient<IViewOrderConfirmationUseCase, ViewOrderConfirmationUseCase>();
 
+builder.Services.AddTransient<IViewProcessedOrdersUseCase, ViewProcessedOrdersUseCase>();
+builder.Services.AddTransient<IViewOutStandingOrdersUseCase, ViewOutStandingOrdersUseCase>();
+builder.Services.AddTransient<IViewOrderDetailUseCase, ViewOrderDetailUseCase>();
+builder.Services.AddTransient<IProcessOrderUseCase, ProcessOrderUseCase>();
+
+
 
 var app = builder.Build();
 

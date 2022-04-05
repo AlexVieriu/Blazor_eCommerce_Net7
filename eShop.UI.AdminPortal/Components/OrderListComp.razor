@@ -1,0 +1,28 @@
+﻿@if (Orders != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>DatePlaced</th>
+                <th>Order Id</th>
+                <th>Country</th>
+                <th>State / Province</th>
+                <th>Customer City</th>
+                <th>Customer Name</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var order in Orders)
+            {
+                <OrderItemComp Order="order"/>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    [Parameter]
+    public List<Order>? Orders { get; set; }
+}

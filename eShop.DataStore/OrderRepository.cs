@@ -35,12 +35,12 @@ public class OrderRepository : IOrderRepository
 
     public IEnumerable<Order> GetOutStandingsOrders()
     {
-        return Orders.Values.Where(q => q.DateProcessed.HasValue == true);
+        return Orders.Values.Where(q => q.DateProcessed.HasValue == false);
     }
 
     public IEnumerable<Order> GetProcessedOrders()
     {
-        return Orders.Values.Where(q => q.DateProcessing.HasValue == true);
+        return Orders.Values.Where(q => q.DateProcessed.HasValue == true);
     }
 
     public void UpdateOrder(Order order)

@@ -1,0 +1,17 @@
+﻿@page "/processedOrders"
+
+@inject IViewProcessedOrdersUseCase proccessedOrder
+
+<h4>Procesed Orders</h4>
+<br />
+
+<OrderListComp Orders="Orders"/>
+
+@code {
+    private List<Order> Orders;
+
+    protected override void OnInitialized()
+    {
+        Orders = proccessedOrder.Execute();       
+    }
+}

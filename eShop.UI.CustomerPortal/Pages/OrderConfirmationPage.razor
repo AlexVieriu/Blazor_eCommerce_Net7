@@ -67,11 +67,6 @@
         </tbody>
     </table>
 }
-else
-{
-    <p>Loading....</p>
-}
-
 
 @code {
     private Order order;
@@ -79,13 +74,14 @@ else
     [Parameter]
     public string UniqueId { get; set; }
 
+    // Local Storage
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
-            if (string.IsNullOrEmpty(UniqueId) == false)
+            if (!string.IsNullOrWhiteSpace(UniqueId))
             {
-                order = viewOrder.Execute(UniqueId);
+                order = viewOrder.Execute(UniqueId); // GetOrderByUniqueId() -> return order
                 StateHasChanged();
             }
         }
