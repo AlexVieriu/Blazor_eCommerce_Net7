@@ -48,30 +48,7 @@ public class Sql : ISql
             throw;
         }
     }
-
-    //// Mapping One To One
-    //public async Task<T> LoadDataOneToOne<T, U>(string procedure, U parameters)
-    //{
-    //    try
-    //    {
-    //        var confConnection = _config.GetConnectionString(ConnectionString);
-
-    //        using IDbConnection con = new SqlConnection(confConnection);
-
-    //        //var entities = con.QueryAsync<T, U, T>(procedure,
-    //        //    map:
-    //        //    );
-
-    //        reutrn 
-    //    }
-    //    catch (Exception)
-    //    {
-
-    //        throw;
-    //    }
-    //}
-
-
+   
     // Multiple Stored Procedure
 
     private IDbConnection? _connection;
@@ -155,4 +132,28 @@ public class Sql : ISql
         _transaction = null;
         _connection = null;
     }
+
+    // One to One relationship
+    //    var connectionString = "Server=ALEXVIERIU\\VIERIUALEXANDRU;Database=E-Commerce;Trusted_Connection=true;Encrypt=false;";
+
+    //    var sql = @"select * 
+    //            from OrderLineItem o
+    //            inner join Product p
+    //            on o.ProductId = p.ProductId
+    //            where o.OrderId  = @OrderId";
+
+    //using IDbConnection con = new SqlConnection(connectionString);
+    //var lineItems = await con.QueryAsync<OrderLineItem, Product, OrderLineItem>(sql,
+    //    map: (orderLineItem, product) =>
+    //    {
+    //        orderLineItem.Product = product;
+    //        return orderLineItem;
+    //    },
+    //    param: new { OrderId = 4 },
+    //    splitOn: "Name");
+
+    //foreach (var item in lineItems.ToList())
+    //{
+    //    Console.WriteLine(item.Product.Name);
+    //}
 }

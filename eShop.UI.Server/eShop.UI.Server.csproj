@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\eShop.DataStore.SQL.Dapper\eShop.DataStore.SQL.Dapper.csproj" />
     <ProjectReference Include="..\eShop.DataStore\eShop.DataStore.csproj" />
     <ProjectReference Include="..\eShop.ShoppingCard.LocalStorage\eShop.ShoppingCart.LocalStorage.csproj" />
     <ProjectReference Include="..\eShop.StateStore.DI\eShop.StateStore.DI.csproj" />

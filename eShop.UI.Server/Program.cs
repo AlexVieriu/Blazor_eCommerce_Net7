@@ -5,10 +5,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddControllers();
 
-builder.Services.AddAuthentication("eShop.CookieAuth")
-                .AddCookie("eShop.CookieAuth", config =>
+builder.Services.AddAuthentication(AuthCookie.CookieName)
+                .AddCookie(AuthCookie.CookieName, config =>
                 {
-                    config.Cookie.Name = "eShop.CookieAuth";
+                    config.Cookie.Name = AuthCookie.CookieName;
                     config.LoginPath = "/login";
                 });
 
@@ -38,7 +38,6 @@ builder.Services.AddTransient<IViewProcessedOrdersUseCase, ViewProcessedOrdersUs
 builder.Services.AddTransient<IViewOutStandingOrdersUseCase, ViewOutStandingOrdersUseCase>();
 builder.Services.AddTransient<IViewOrderDetailUseCase, ViewOrderDetailUseCase>();
 builder.Services.AddTransient<IProcessOrderUseCase, ProcessOrderUseCase>();
-
 
 
 var app = builder.Build();

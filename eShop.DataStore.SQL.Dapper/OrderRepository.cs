@@ -3,7 +3,6 @@ using eShop.CoreBusiness.Models;
 using eShop.DataStore.SQL.Dapper.Helpers;
 using eShop.UseCases.CustomerPortal.PluginInterfaces.DataStore;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace eShop.DataStore.SQL.Dapper;
 public class OrderRepository : IOrderRepository
@@ -17,7 +16,6 @@ public class OrderRepository : IOrderRepository
 
     public async Task<int> CreateOrderAsync(Order order)
     {
-        using IDbConnection connection = new SqlConnection();
         try
         {
             _sql.StartTransaction();
@@ -72,8 +70,35 @@ public class OrderRepository : IOrderRepository
     {
         try
         {
+            _sql.StartTransaction();
 
-            return null;
+            var lineItems = (await _sql.LoadDataTransation<OrderLineItem, dynamic>("sp_GetLineItemsByOrderId",
+                                                                                   new { OrderId = orderId })).ToList();
+            var products = (await _sql.LoadDataTransation<Product, dynamic>("sp_GetLineItemsByOrderId",
+                                                                                   new { OrderId = orderId })).ToList();
+            _sql.CommitTransaction();
+
+            foreach (var item in lineItems)
+            {
+                item.Product = products.Where(q => q.ProductId == item.ProductId).First();
+            }
+
+            return lineItems;
+        }
+        catch (Exception ex)
+        {
+            _sql.RollBackTransaction();
+            throw;
+        }
+    }
+
+    public async Task<Order> GetOrderAsync(int orderId)
+    {
+        try
+        {
+            var order = (await _sql.LoadData<Order, dynamic>("sp_GetOrderById", new { OrderId = orderId })).First();
+
+            return order;
         }
         catch (Exception ex)
         {
@@ -81,38 +106,104 @@ public class OrderRepository : IOrderRepository
         }
     }
 
-    public Order GetOrder(int orderId)
+    public async Task<Order> GetOrderByUniqueIdAsync(string uniquieId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var order = (await _sql.LoadData<Order, dynamic>("so_GetOrderByUniqueId",
+                                                             new { OrderUniqueId = uniquieId })).First();
+
+            return order;
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
     }
 
-    public Task<Order> GetOrderAsync(int orderId)
+    public async Task<IEnumerable<Order>> GetOrdersAsync()
     {
-        throw new NotImplementedException();
+        try
+        {
+            var orders = await _sql.LoadData<Order, dynamic>("sp_GetOrders", new { });
+
+            return orders;
+        }
+        catch (Exception ex)
+        {
+
+            throw;
+        }
     }
 
-    public Task<Order> GetOrderByUniqueIdAsync(string uniquieId)
+    public async Task<IEnumerable<Order>> GetOutStandingsOrdersAsync()
     {
-        throw new NotImplementedException();
+        try
+        {
+            var orders = await _sql.LoadData<Order, dynamic>("sp_GetOutStandingOrders", new { });
+
+            return orders;
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
     }
 
-    public Task<IEnumerable<Order>> GetOrdersAsync()
+    public async Task<IEnumerable<Order>> GetProcessedOrdersAsync()
     {
-        throw new NotImplementedException();
+        try
+        {
+            var orders = await _sql.LoadData<Order, dynamic>("sp_GetProccessedOrders", new { });
+
+            return orders;
+        }
+        catch (Exception ex)
+        {
+            throw;
+        }
     }
 
-    public Task<IEnumerable<Order>> GetOutStandingsOrdersAsync()
+    public async Task UpdateOrderAsync(Order order)
     {
-        throw new NotImplementedException();
-    }
+        try
+        {
+            // update order
+            DynamicParameters orderParams = new();
 
-    public Task<IEnumerable<Order>> GetProcessedOrdersAsync()
-    {
-        throw new NotImplementedException();
-    }
+            orderParams.Add("AdminUser", order.AdminUser);
+            orderParams.Add("CustomerAddress", order.CustomerAddress);
+            orderParams.Add("CustomerCity", order.CustomerCity);
+            orderParams.Add("CustomerCountry", order.CustomerCountry);
+            orderParams.Add("CustomerName", order.CustomerName);
+            orderParams.Add("CustomerStateProvince", order.CustomerStateProvince);
+            orderParams.Add("DatePlaced", order.DatePlaced);
+            orderParams.Add("DateProcessed", order.DateProcessed);
+            orderParams.Add("DateProcessing", order.DateProcessing);
+            orderParams.Add("UniqueId", order.UniqueId);
+            orderParams.Add("OrderId", order.OrderId);
 
-    public Task UpdateOrderAsync(Order order)
-    {
-        throw new NotImplementedException();
+            await _sql.SaveDataTransaction<dynamic>("sp_UpdateOrder", orderParams);
+
+            // update line Items
+            DynamicParameters lineItemsParams = new();
+
+            foreach (var lineItem in order.LineItems)
+            {
+                lineItemsParams.Add("", lineItem.Quantity);
+                lineItemsParams.Add("", lineItem.Price);
+                lineItemsParams.Add("", lineItem.ProductId);
+                lineItemsParams.Add("", lineItem.OrderId);
+
+                await _sql.SaveDataTransaction<dynamic>("sp_UpdateLineItem", lineItemsParams);
+            }
+
+            _sql.CommitTransaction();
+        }
+        catch (Exception ex)
+        {
+            _sql.RollBackTransaction();
+            throw;
+        }
     }
 }

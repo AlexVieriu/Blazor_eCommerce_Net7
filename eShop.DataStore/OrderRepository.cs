@@ -10,40 +10,48 @@ public class OrderRepository : IOrderRepository
         Orders = new();
     }
 
-    public int CreateOrder(Order order)
+    public async Task<int> CreateOrderAsync(Order order)
     {
         order.OrderId = Orders.Count + 1;
         Orders.Add(order.OrderId.Value, order);
         return order.OrderId.Value;
     }
 
-    public Order GetOrder(int orderId)
+    public async Task<IEnumerable<OrderLineItem>> GetLineItemsByOrderIdAsync(int orderId)
+    {
+        var lineItems = Orders.Values.Where(q => q.OrderId == orderId)
+                                     .Select(x => x.LineItems).FirstOrDefault().AsEnumerable();
+
+        return lineItems;
+    }
+
+    public async Task<Order> GetOrderAsync(int orderId)
     {
         return Orders[orderId];
     }
 
-    public Order GetOrderByUniqueId(string uniquieId)
+    public async Task<Order> GetOrderByUniqueIdAsync(string uniquieId)
     {
         var order = Orders.Values.FirstOrDefault(q => q.UniqueId == uniquieId);
         return order;
     }
 
-    public IEnumerable<Order> GetOrders()
+    public async Task<IEnumerable<Order>> GetOrdersAsync()
     {
         return Orders.Values;
     }
 
-    public IEnumerable<Order> GetOutStandingsOrders()
+    public async Task<IEnumerable<Order>> GetOutStandingsOrdersAsync()
     {
         return Orders.Values.Where(q => q.DateProcessed.HasValue == false);
     }
 
-    public IEnumerable<Order> GetProcessedOrders()
+    public async Task<IEnumerable<Order>> GetProcessedOrdersAsync()
     {
         return Orders.Values.Where(q => q.DateProcessed.HasValue == true);
     }
 
-    public void UpdateOrder(Order order)
+    public async Task UpdateOrderAsync(Order order)
     {
         if (order != null && order.LineItems != null && order.LineItems.Count > 0)
             Orders[order.OrderId.Value] = order;
