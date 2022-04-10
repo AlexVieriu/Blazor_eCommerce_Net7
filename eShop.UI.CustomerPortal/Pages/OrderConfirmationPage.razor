@@ -75,13 +75,13 @@
     public string UniqueId { get; set; }
 
     // Local Storage
-    protected override void OnAfterRender(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
             if (!string.IsNullOrWhiteSpace(UniqueId))
             {
-                order = viewOrder.Execute(UniqueId); // GetOrderByUniqueId() -> return order
+                order = await viewOrder.ExecuteAsync(UniqueId); // GetOrderByUniqueId() -> return order
                 StateHasChanged();
             }
         }

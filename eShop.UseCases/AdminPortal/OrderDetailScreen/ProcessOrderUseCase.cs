@@ -10,15 +10,15 @@ public class ProcessOrderUseCase : IProcessOrderUseCase
         _orderService = orderService;
     }
 
-    public bool Execute(int orderId, string adminUserName)
+    public async Task<bool> Execute(int orderId, string adminUserName)
     {
-        var order = _orderRepo.GetOrder(orderId);
+        var order = await _orderRepo.GetOrderAsync(orderId);
         order.AdminUser = adminUserName;
         order.DateProcessed = DateTime.Now;
 
         if (!_orderService.ValidateUpdateOrder(order))
         {
-            _orderRepo.UpdateOrder(order);
+            await _orderRepo.UpdateOrderAsync(order);
             return true;
         }
         return false;

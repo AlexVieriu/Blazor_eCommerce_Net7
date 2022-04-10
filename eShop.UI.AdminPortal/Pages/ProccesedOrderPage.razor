@@ -12,8 +12,8 @@
 @code {
     private List<Order> Orders;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        Orders = proccessedOrder.Execute();       
+        Orders = await proccessedOrder.ExecuteAsync();       
     }
 }

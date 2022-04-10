@@ -23,11 +23,11 @@ public class PlaceOrderUseCase : IPlaceOrderUseCase
         {
             order.DatePlaced = DateTime.Now;
             order.UniqueId = Guid.NewGuid().ToString();
-            _orderRepository.CreateOrder(order);
+            await _orderRepository.CreateOrderAsync(order);
 
             await _cart.EmptyAsync();
             _stateStore.BroadCastStateChange();
-
+                        
             return order.UniqueId;
         }
 

@@ -1,6 +1,7 @@
 ﻿global using eShop.CoreBusiness.Services;
 //global using eShop.DataStore;
 global using eShop.DataStore.SQL.Dapper;
+global using eShop.DataStore.SQL.Dapper.Helpers;
 global using eShop.ShoppingCart.LocalStorage;
 global using eShop.StateStore.DI;
 global using eShop.UI.CustomerPortal.Models;

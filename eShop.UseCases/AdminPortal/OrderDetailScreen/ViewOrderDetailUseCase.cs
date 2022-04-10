@@ -8,8 +8,8 @@ public class ViewOrderDetailUseCase : IViewOrderDetailUseCase
         _order = order;
     }
 
-    public Order Execute(int orderId)
+    public async Task<Order> ExecuteAsync(int orderId)
     {
-        return _order.GetOrder(orderId);
+        return await _order.GetOrderAsync(orderId);
     }
 }

@@ -14,6 +14,7 @@ builder.Services.AddAuthentication(AuthCookie.CookieName)
 
 builder.Services.AddAutoMapper(typeof(CustomerUI));
 
+builder.Services.AddSingleton<ISql, Sql>();
 builder.Services.AddSingleton<IProductRepository, ProductRepository>();
 builder.Services.AddSingleton<IOrderRepository, OrderRepository>();
 

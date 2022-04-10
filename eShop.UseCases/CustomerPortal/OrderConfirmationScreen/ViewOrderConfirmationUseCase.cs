@@ -8,8 +8,8 @@ public class ViewOrderConfirmationUseCase : IViewOrderConfirmationUseCase
         _orderRepo = orderRepo;
     }
 
-    public Order Execute(string uniqueId)
+    public async Task<Order> ExecuteAsync(string uniqueId)
     {
-        return _orderRepo.GetOrderByUniqueId(uniqueId);
+        return await _orderRepo.GetOrderByUniqueIdAsync(uniqueId);
     }
 }

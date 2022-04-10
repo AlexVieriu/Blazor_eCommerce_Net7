@@ -52,10 +52,10 @@
     [Parameter]
     public int orderId { get; set; }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         if (orderId > 0)
-            Order = viewOrder.Execute(orderId);
+            Order = await viewOrder.ExecuteAsync(orderId);
     }
 
     private void HandleProcessOrder()

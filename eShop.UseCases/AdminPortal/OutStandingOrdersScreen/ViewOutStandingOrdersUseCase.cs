@@ -7,8 +7,8 @@ public class ViewOutStandingOrdersUseCase : IViewOutStandingOrdersUseCase
     {
         _order = order;
     }
-    public List<Order> Execute()
+    public async Task<List<Order>> ExecuteAsync()
     {
-        return _order.GetOrders().ToList();
+        return (await _order.GetOrdersAsync()).ToList();
     }
 }

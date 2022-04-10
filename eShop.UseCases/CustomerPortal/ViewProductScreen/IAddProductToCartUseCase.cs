@@ -1,4 +1,4 @@
-﻿namespace eShop.UseCases.CustomerPortal.ShoppingCardScreen.Contracts;
+﻿namespace eShop.UseCases.CustomerPortal.ViewProductScreen;
 public interface IAddProductToCartUseCase
 {
     Task ExecuteAsync(Product product);

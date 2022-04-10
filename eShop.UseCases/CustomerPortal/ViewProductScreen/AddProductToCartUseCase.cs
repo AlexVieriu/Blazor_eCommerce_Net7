@@ -1,4 +1,4 @@
-﻿namespace eShop.UseCases.CustomerPortal.ShoppingCardScreen.Services;
+﻿namespace eShop.UseCases.CustomerPortal.ViewProductScreen;
 public class AddProductToCartUseCase : IAddProductToCartUseCase
 {
     private readonly IShoppingCart _shoppingCart;

@@ -1,5 +1,5 @@
 ﻿namespace eShop.UseCases.AdminPortal.OutStandingOrdersScreen;
 public interface IViewOutStandingOrdersUseCase
 {
-    List<Order> Execute();
+    Task<List<Order>> ExecuteAsync();
 }

@@ -12,7 +12,9 @@ public class DeleteLineItemUseCase : IDeleteLineItemUseCase
 
     public async Task<Order> ExecuteAsync(int productId)
     {
-        return await _cart.DeleteProductFromCartAsync(productId);
+        var order = await _cart.DeleteProductFromCartAsync(productId);
         _stateStore.BroadCastStateChange();
+
+        return order;
     }
 }

@@ -8,8 +8,8 @@ public class ViewProcessedOrdersUseCase : IViewProcessedOrdersUseCase
         _order = order;
     }
 
-    public List<Order> Execute()
+    public async Task<List<Order>> ExecuteAsync()
     {
-        return _order.GetProcessedOrders().ToList();
+        return (await _order.GetProcessedOrdersAsync()).ToList();
     }
 }
