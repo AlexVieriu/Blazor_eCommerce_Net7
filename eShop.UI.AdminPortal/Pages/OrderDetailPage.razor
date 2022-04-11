@@ -58,11 +58,11 @@
             Order = await viewOrder.ExecuteAsync(orderId);
     }
 
-    private void HandleProcessOrder()
+    private async Task HandleProcessOrder()
     {
         if (Order != null)
         {
-            proccedOrder.Execute(orderId, "admin");
+            await proccedOrder.ExecuteAsync(orderId, "admin");
             navManager.NavigateTo("/outstandingorders");
         }
     }

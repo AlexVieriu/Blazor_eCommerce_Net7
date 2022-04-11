@@ -75,15 +75,21 @@
     public string UniqueId { get; set; }
 
     // Local Storage
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    //protected override async Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    if (firstRender)
+    //    {
+    //        if (!string.IsNullOrWhiteSpace(UniqueId))
+    //        {
+    //            order = await viewOrder.ExecuteAsync(UniqueId);  GetOrderByUniqueId() -> return order
+    //            StateHasChanged();
+    //        }
+    //    }
+    //}
+
+    protected override async Task OnParametersSetAsync()
     {
-        if (firstRender)
-        {
-            if (!string.IsNullOrWhiteSpace(UniqueId))
-            {
-                order = await viewOrder.ExecuteAsync(UniqueId); // GetOrderByUniqueId() -> return order
-                StateHasChanged();
-            }
-        }
+        if (!string.IsNullOrWhiteSpace(UniqueId))
+            order = await viewOrder.ExecuteAsync(UniqueId);
     }
 }

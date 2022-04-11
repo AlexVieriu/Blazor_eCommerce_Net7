@@ -11,6 +11,7 @@ global using eShop.UseCases.AdminPortal.OutStandingOrdersScreen;
 global using eShop.UseCases.AdminPortal.ProcessedOrdersScreen;
 global using eShop.UseCases.CustomerPortal.OrderConfirmationScreen;
 global using eShop.UseCases.CustomerPortal.PluginInterfaces.DataStore;
+global using eShop.UseCases.CustomerPortal.PluginInterfaces.DataStore.Helpers;
 global using eShop.UseCases.CustomerPortal.PluginInterfaces.StateStore;
 global using eShop.UseCases.CustomerPortal.PluginInterfaces.UI;
 global using eShop.UseCases.CustomerPortal.SearchProductScreen;

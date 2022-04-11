@@ -1,6 +1,6 @@
 ﻿using eShop.CoreBusiness.Models;
-using eShop.DataStore.SQL.Dapper.Helpers;
 using eShop.UseCases.CustomerPortal.PluginInterfaces.DataStore;
+using eShop.UseCases.CustomerPortal.PluginInterfaces.DataStore.Helpers;
 
 namespace eShop.DataStore.SQL.Dapper;
 public class ProductRepository : IProductRepository

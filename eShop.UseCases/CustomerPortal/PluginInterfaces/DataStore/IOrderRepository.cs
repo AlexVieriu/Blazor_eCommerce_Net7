@@ -8,5 +8,6 @@ public interface IOrderRepository
     Task<IEnumerable<Order>> GetOrdersAsync();
     Task<IEnumerable<Order>> GetOutStandingsOrdersAsync();
     Task<IEnumerable<Order>> GetProcessedOrdersAsync();
-    Task UpdateOrderAsync(Order order);  
+    Task UpdateOrderAsync(Order order);
+    Task UpdateOrderProccedAsync(string adminUser, DateTime? dateProcced, int orderId);
 }

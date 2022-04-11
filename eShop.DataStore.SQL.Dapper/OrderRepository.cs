@@ -2,7 +2,9 @@
 using eShop.CoreBusiness.Models;
 using eShop.DataStore.SQL.Dapper.Helpers;
 using eShop.UseCases.CustomerPortal.PluginInterfaces.DataStore;
+using eShop.UseCases.CustomerPortal.PluginInterfaces.DataStore.Helpers;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace eShop.DataStore.SQL.Dapper;
 public class OrderRepository : IOrderRepository
@@ -29,6 +31,7 @@ public class OrderRepository : IOrderRepository
             createOrder.Add("CustomerAddress", order.CustomerAddress);
             createOrder.Add("CustomerCity", order.CustomerCity);
             createOrder.Add("CustomerStateProvince", order.CustomerStateProvince);
+            createOrder.Add("CustomerCountry", order.CustomerCountry);
             createOrder.Add("AdminUser", order.AdminUser);
             createOrder.Add("UniqueId", order.UniqueId);
 
@@ -44,16 +47,26 @@ public class OrderRepository : IOrderRepository
                 return 0;
             }
 
-            DynamicParameters createOrderLineItem = new();
+            DynamicParameters lineItemsParams = new();
 
-            foreach (var linetItem in order.LineItems)
+            foreach (var lineItem in order.LineItems)
             {
-                createOrderLineItem.Add("", linetItem.ProductId);
-                createOrderLineItem.Add("", idOrder);
-                createOrderLineItem.Add("", linetItem.Quantity);
-                createOrderLineItem.Add("", linetItem.Price);
+                lineItemsParams.Add("ProductId", lineItem.ProductId);
+                lineItemsParams.Add("OrderId", idOrder);
+                lineItemsParams.Add("Quantity", lineItem.Quantity);
+                lineItemsParams.Add("Price", lineItem.Price);
 
-                await _sql.SaveDataTransaction<dynamic>("sp_CreateLineItem", createOrderLineItem);
+                lineItemsParams.Add("LineItemId", DbType.Int32, direction: ParameterDirection.Output);
+
+                await _sql.SaveDataTransaction<dynamic>("sp_CreateLineItem", lineItemsParams);
+
+                var lineItemID = lineItemsParams.Get<int>("LineItemId");
+
+                if (lineItemID <= 0)
+                {
+                    _sql.RollBackTransaction();
+                    return 0;
+                }
             }
 
             _sql.CommitTransaction();
@@ -96,27 +109,71 @@ public class OrderRepository : IOrderRepository
     {
         try
         {
-            var order = (await _sql.LoadData<Order, dynamic>("sp_GetOrderById", new { OrderId = orderId })).First();
+            _sql.StartTransaction();
+
+            var order = (await _sql.LoadDataTransation<Order, dynamic>("sp_GetOrderById",
+                                                             new { OrderId = orderId })).FirstOrDefault();
+
+            order.LineItems = (await _sql.LoadDataTransation<OrderLineItem, dynamic>("sp_GetLineItemsByOrderId",
+                                                                          new { OrderId = orderId })).ToList();
+
+            var products = (await _sql.LoadDataTransation<Product, dynamic>("sp_GetLineItemsByOrderId",
+                                                                       new { OrderId = orderId })).ToList();
+
+            if (order.OrderId < 0)
+            {
+                _sql.RollBackTransaction();
+                return null;
+            }
+
+            _sql.CommitTransaction();
+
+            foreach (var item in order.LineItems)
+            {
+                item.Product = products.Where(q => q.ProductId == item.ProductId).First();
+            }
 
             return order;
         }
         catch (Exception ex)
         {
+            _sql.RollBackTransaction();
             throw;
         }
     }
 
-    public async Task<Order> GetOrderByUniqueIdAsync(string uniquieId)
+    public async Task<Order> GetOrderByUniqueIdAsync(string uniqueId)
     {
         try
         {
-            var order = (await _sql.LoadData<Order, dynamic>("so_GetOrderByUniqueId",
-                                                             new { OrderUniqueId = uniquieId })).First();
+            _sql.StartTransaction();
+            var order = (await _sql.LoadDataTransation<Order, dynamic>("sp_GetOrderByUniqueId",
+                                                             new { UniqueId = uniqueId })).FirstOrDefault();
+
+            order.LineItems = (await _sql.LoadDataTransation<OrderLineItem, dynamic>("sp_GetLineItemsByOrderId",
+                                                                          new { OrderId = order.OrderId })).ToList();
+
+            var products = (await _sql.LoadDataTransation<Product, dynamic>("sp_GetLineItemsByOrderId",
+                                                                       new { OrderId = order.OrderId })).ToList();
+
+            if (order.OrderId < 0)
+            {
+                _sql.RollBackTransaction();
+                return null;
+            }
+
+            _sql.CommitTransaction();
+
+            foreach (var item in order.LineItems)
+            {
+                item.Product = products.Where(q => q.ProductId == item.ProductId).First();
+            }
 
             return order;
         }
         catch (Exception ex)
         {
+            _sql.RollBackTransaction();
             throw;
         }
     }
@@ -168,6 +225,8 @@ public class OrderRepository : IOrderRepository
     {
         try
         {
+            _sql.StartTransaction();
+
             // update order
             DynamicParameters orderParams = new();
 
@@ -177,9 +236,6 @@ public class OrderRepository : IOrderRepository
             orderParams.Add("CustomerCountry", order.CustomerCountry);
             orderParams.Add("CustomerName", order.CustomerName);
             orderParams.Add("CustomerStateProvince", order.CustomerStateProvince);
-            orderParams.Add("DatePlaced", order.DatePlaced);
-            orderParams.Add("DateProcessed", order.DateProcessed);
-            orderParams.Add("DateProcessing", order.DateProcessing);
             orderParams.Add("UniqueId", order.UniqueId);
             orderParams.Add("OrderId", order.OrderId);
 
@@ -190,10 +246,10 @@ public class OrderRepository : IOrderRepository
 
             foreach (var lineItem in order.LineItems)
             {
-                lineItemsParams.Add("", lineItem.Quantity);
-                lineItemsParams.Add("", lineItem.Price);
-                lineItemsParams.Add("", lineItem.ProductId);
-                lineItemsParams.Add("", lineItem.OrderId);
+                lineItemsParams.Add("ProductId", lineItem.ProductId);
+                lineItemsParams.Add("OrderId", lineItem.OrderId);
+                lineItemsParams.Add("Quantity", lineItem.Quantity);
+                lineItemsParams.Add("Price", lineItem.Price);
 
                 await _sql.SaveDataTransaction<dynamic>("sp_UpdateLineItem", lineItemsParams);
             }
@@ -203,6 +259,24 @@ public class OrderRepository : IOrderRepository
         catch (Exception ex)
         {
             _sql.RollBackTransaction();
+            throw;
+        }
+    }
+
+    public async Task UpdateOrderProccedAsync(string adminUser, DateTime? dateProcced, int orderId)
+    {
+        try
+        {
+            DynamicParameters orderParams = new();
+
+            orderParams.Add("AdminUser", adminUser);
+            orderParams.Add("DateProcced", dateProcced);
+            orderParams.Add("OrderId", orderId);
+
+            await _sql.SaveData<dynamic>("sp_UpdateProccedOrder", orderParams);
+        }
+        catch (Exception ex)
+        {
             throw;
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace eShop.DataStore.SQL.Dapper.Helpers;
+﻿namespace eShop.UseCases.CustomerPortal.PluginInterfaces.DataStore.Helpers;
 public interface ISql
 {
     Task<IEnumerable<T>> LoadData<T, U>(string procedure, U parameters);

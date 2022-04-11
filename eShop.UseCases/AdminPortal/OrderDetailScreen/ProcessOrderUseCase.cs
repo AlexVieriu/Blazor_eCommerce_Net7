@@ -10,7 +10,7 @@ public class ProcessOrderUseCase : IProcessOrderUseCase
         _orderService = orderService;
     }
 
-    public async Task<bool> Execute(int orderId, string adminUserName)
+    public async Task<bool> ExecuteAsync(int orderId, string adminUserName)
     {
         var order = await _orderRepo.GetOrderAsync(orderId);
         order.AdminUser = adminUserName;
@@ -18,7 +18,7 @@ public class ProcessOrderUseCase : IProcessOrderUseCase
 
         if (!_orderService.ValidateUpdateOrder(order))
         {
-            await _orderRepo.UpdateOrderAsync(order);
+            await _orderRepo.UpdateOrderProccedAsync(adminUserName, order.DateProcessed, orderId);
             return true;
         }
         return false;

@@ -58,4 +58,12 @@ public class OrderRepository : IOrderRepository
 
         return;
     }
+
+    public async Task UpdateOrderProccedAsync(string adminUser, DateTime? dateProcced, int orderId)
+    {
+        Orders[orderId].AdminUser = adminUser; 
+        Orders[orderId].DateProcessed = dateProcced;         
+
+        return;
+    }
 }
