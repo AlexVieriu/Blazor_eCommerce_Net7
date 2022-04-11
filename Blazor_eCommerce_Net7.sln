@@ -26,13 +26,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShop.StateStore.DI", "eSho
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShop.UI.CustomerPortal", "eShop.UI.CustomerPortal\eShop.UI.CustomerPortal.csproj", "{DD92E97D-C262-44AE-A0F2-A86F8BABB3FE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShop.API", "eShop.API\eShop.API.csproj", "{715B8862-2475-4AB1-B2B3-FFE246C9C49A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShop.UI.AdminPortal", "eShop.UI.AdminPortal\eShop.UI.AdminPortal.csproj", "{4CD1DEFD-E098-4DBB-BE07-4CE15DC33E13}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShop.UI.Common", "eShop.UI.Common\eShop.UI.Common.csproj", "{5F6C59ED-8DC5-474F-95C5-6C0FA2512153}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eShop.DataStore.SQL.Dapper", "eShop.DataStore.SQL.Dapper\eShop.DataStore.SQL.Dapper.csproj", "{A7805C0F-F409-4319-9B5D-A6529A85F796}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShop.DataStore.SQL.Dapper", "eShop.DataStore.SQL.Dapper\eShop.DataStore.SQL.Dapper.csproj", "{A7805C0F-F409-4319-9B5D-A6529A85F796}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Notes", "_Notes", "{5C0B617F-437E-457F-B884-2CFFB451F48E}"
+	ProjectSection(SolutionItems) = preProject
+		..\Recap_eCommerce\Notes\CreatingTheProject.txt = ..\Recap_eCommerce\Notes\CreatingTheProject.txt
+		..\Recap_eCommerce\Notes\Project Road Map.txt = ..\Recap_eCommerce\Notes\Project Road Map.txt
+		..\Recap_eCommerce\Notes\TypeOfArhitecture.txt = ..\Recap_eCommerce\Notes\TypeOfArhitecture.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,10 +73,6 @@ Global
 		{DD92E97D-C262-44AE-A0F2-A86F8BABB3FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD92E97D-C262-44AE-A0F2-A86F8BABB3FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD92E97D-C262-44AE-A0F2-A86F8BABB3FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{715B8862-2475-4AB1-B2B3-FFE246C9C49A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{715B8862-2475-4AB1-B2B3-FFE246C9C49A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{715B8862-2475-4AB1-B2B3-FFE246C9C49A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{715B8862-2475-4AB1-B2B3-FFE246C9C49A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4CD1DEFD-E098-4DBB-BE07-4CE15DC33E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4CD1DEFD-E098-4DBB-BE07-4CE15DC33E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CD1DEFD-E098-4DBB-BE07-4CE15DC33E13}.Release|Any CPU.ActiveCfg = Release|Any CPU

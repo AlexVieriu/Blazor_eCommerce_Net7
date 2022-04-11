@@ -14,13 +14,18 @@ builder.Services.AddAuthentication(AuthCookie.CookieName)
 
 builder.Services.AddAutoMapper(typeof(CustomerUI));
 
+// Singleton : Caching Services, Global Configuration, Business Rules, HttpClients
+// Persisting state that's useful for the runtime of the application
 builder.Services.AddSingleton<ISql, Sql>();
 builder.Services.AddSingleton<IProductRepository, ProductRepository>();
 builder.Services.AddSingleton<IOrderRepository, OrderRepository>();
 
+// Scoped: Persisting state throughtout application per request
 builder.Services.AddScoped<IShoppingCart, ShoppingCartBase>();
 builder.Services.AddScoped<IShoppingCartStateStore, ShoppingCartStateStore>();
 
+// Transient: Database Access, File Access, Services that should dispose of their state
+// When you need a fresh instance of an object every single time
 builder.Services.AddTransient<IOrderService, OrderService>();
 
 builder.Services.AddTransient<ISearchProductUseCase, SearchProductUseCase>();
