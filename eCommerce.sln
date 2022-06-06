@@ -32,13 +32,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShop.UI.Common", "eShop.UI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eShop.DataStore.SQL.Dapper", "eShop.DataStore.SQL.Dapper\eShop.DataStore.SQL.Dapper.csproj", "{A7805C0F-F409-4319-9B5D-A6529A85F796}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Notes", "_Notes", "{5C0B617F-437E-457F-B884-2CFFB451F48E}"
-	ProjectSection(SolutionItems) = preProject
-		..\Recap_eCommerce\Notes\CreatingTheProject.txt = ..\Recap_eCommerce\Notes\CreatingTheProject.txt
-		..\Recap_eCommerce\Notes\Project Road Map.txt = ..\Recap_eCommerce\Notes\Project Road Map.txt
-		..\Recap_eCommerce\Notes\TypeOfArhitecture.txt = ..\Recap_eCommerce\Notes\TypeOfArhitecture.txt
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

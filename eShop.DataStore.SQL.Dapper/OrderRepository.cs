@@ -203,7 +203,7 @@ public class OrderRepository : IOrderRepository
     {
         try
         {
-            var orders = await _sql.LoadData<Order, dynamic>("sp_GetProccessedOrders", new { });
+            var orders = await _sql.LoadData<Order, dynamic>("sp_GetProcessedOrders", new { });
 
             return orders;
         }

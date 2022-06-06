@@ -18,3 +18,6 @@ global using eShop.UseCases.CustomerPortal.SearchProductScreen;
 global using eShop.UseCases.CustomerPortal.ShoppingCardScreen.Contracts;
 global using eShop.UseCases.CustomerPortal.ShoppingCardScreen.Services;
 global using eShop.UseCases.CustomerPortal.ViewProductScreen;
+global using Microsoft.AspNetCore.Authentication;
+global using Microsoft.AspNetCore.Mvc;
+global using System.Security.Claims;

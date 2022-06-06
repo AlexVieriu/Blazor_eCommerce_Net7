@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-
-namespace eShop.UI.Server.Controllers;
+﻿namespace eShop.UI.Server.Controllers;
 public class UserController : Controller
 {
     private const string coockieName = "eShop.CookieAuth";
@@ -29,6 +25,6 @@ public class UserController : Controller
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync();
-        return Redirect("/outstandingOrders");
+        return Redirect("/products");
     }
 }
