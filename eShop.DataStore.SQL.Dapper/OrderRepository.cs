@@ -1,12 +1,4 @@
-﻿using Dapper;
-using eShop.CoreBusiness.Models;
-using eShop.DataStore.SQL.Dapper.Helpers;
-using eShop.UseCases.CustomerPortal.PluginInterfaces.DataStore;
-using eShop.UseCases.CustomerPortal.PluginInterfaces.DataStore.Helpers;
-using System.Data;
-using System.Data.SqlClient;
-
-namespace eShop.DataStore.SQL.Dapper;
+﻿namespace eShop.DataStore.SQL.Dapper;
 public class OrderRepository : IOrderRepository
 {
     private readonly ISql _sql;

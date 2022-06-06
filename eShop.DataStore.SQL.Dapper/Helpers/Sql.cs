@@ -1,10 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Data;
-using System.Data.SqlClient;
-using Dapper;
-using eShop.UseCases.CustomerPortal.PluginInterfaces.DataStore.Helpers;
-
-namespace eShop.DataStore.SQL.Dapper.Helpers;
+﻿namespace eShop.DataStore.SQL.Dapper.Helpers;
 public class Sql : ISql
 {
     private readonly IConfiguration _config;

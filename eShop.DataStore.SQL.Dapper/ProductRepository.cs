@@ -1,8 +1,4 @@
-﻿using eShop.CoreBusiness.Models;
-using eShop.UseCases.CustomerPortal.PluginInterfaces.DataStore;
-using eShop.UseCases.CustomerPortal.PluginInterfaces.DataStore.Helpers;
-
-namespace eShop.DataStore.SQL.Dapper;
+﻿namespace eShop.DataStore.SQL.Dapper;
 public class ProductRepository : IProductRepository
 {
     private readonly ISql _sql;
